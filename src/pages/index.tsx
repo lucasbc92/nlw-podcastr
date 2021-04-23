@@ -3,6 +3,8 @@
 // SSG: getStaticProps (só funciona em produção - build)
 
 import { GetStaticProps } from 'next';
+import { useContext } from 'react';
+import { PlayerContext } from '../contexts/PlayerContext';
 import Link from 'next/link';
 import Image from 'next/image';
 //Image: otimização para mostrar imagens
@@ -14,6 +16,7 @@ import { api } from '../services/api';
 import { convertDurationToTimeString } from '../utils/convertDurationToTimeString';
 
 import styles from './home.module.scss';
+
 
 interface Episode {
   id: string;
@@ -39,6 +42,8 @@ export default function Home({latestEpisodes, allEpisodes}: HomeProps) {
   //     .then(data => console.log(data));
   // }, []);
 
+  const { play } = useContext(PlayerContext);
+
   return (
     <div className={styles.homepage}>
       <section className={styles.latestEpisodes}>
@@ -63,7 +68,7 @@ export default function Home({latestEpisodes, allEpisodes}: HomeProps) {
                   <span>{episode.durationAsString}</span>
                 </div>
 
-                <button type="button">
+                <button type="button" onClick={() => play(episode)}>
                   <img src="/play-green.svg" alt="Play episode"/>
                 </button>
               </li>

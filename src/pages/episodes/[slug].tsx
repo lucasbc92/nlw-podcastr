@@ -3,7 +3,6 @@ import ptBR from 'date-fns/locale/pt-BR';
 import Image from 'next/image';
 import Link from 'next/link';
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { useRouter } from 'next/router';
 import { api } from '../../services/api';
 import { convertDurationToTimeString } from '../../utils/convertDurationToTimeString';
 
@@ -26,8 +25,7 @@ interface EpisodeProps {
 }
 
 export default function Episode({episode}: EpisodeProps) {
-    const router = useRouter();
-    
+   
     return (
         <div className={styles.episode}>
             <div className={styles.thumbnailContainer}>
@@ -67,9 +65,30 @@ export default function Episode({episode}: EpisodeProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+    //cachear somente os mais acessados (2 episódios);
+    //Incremental Static Regeneration (ISR)
+    const { data } = await api.get('episodes', {
+        params: {
+          _limit: 2,
+          _sort: 'published_at',
+          _order: 'desc',
+        }
+    });
+    
+    const paths = data.map(episode => {
+        return {
+            params: {
+                slug: episode.id
+            }
+        }        
+    })
+
     return {
-        paths: [],
+        paths,
         fallback: 'blocking',
+        //fallback: false - retorna 404 se a página não estiver nos paths
+        //fallback: true - carrega a página pelo cliente
+        //fallback: blocking - carrega a página pelo servidor
     }
 }
 
