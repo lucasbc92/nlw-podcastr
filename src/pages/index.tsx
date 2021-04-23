@@ -6,6 +6,8 @@ import { GetStaticProps } from 'next';
 import { usePlayer } from '../contexts/PlayerContext';
 import Link from 'next/link';
 import Image from 'next/image';
+import Head from 'next/head';
+
 //Image: otimização para mostrar imagens
 
 import { format, parseISO } from 'date-fns';
@@ -45,9 +47,11 @@ export default function Home({latestEpisodes, allEpisodes}: HomeProps) {
 
   const episodeList = [...latestEpisodes, ...allEpisodes];
 
-
   return (
     <div className={styles.homepage}>
+      <Head>
+        <title>Home | Podcastr</title>
+      </Head>
       <section className={styles.latestEpisodes}>
         <h2>Latest Episodes</h2>
         <ul>
