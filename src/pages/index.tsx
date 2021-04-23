@@ -3,8 +3,7 @@
 // SSG: getStaticProps (só funciona em produção - build)
 
 import { GetStaticProps } from 'next';
-import { useContext } from 'react';
-import { PlayerContext } from '../contexts/PlayerContext';
+import { usePlayer } from '../contexts/PlayerContext';
 import Link from 'next/link';
 import Image from 'next/image';
 //Image: otimização para mostrar imagens
@@ -42,7 +41,7 @@ export default function Home({latestEpisodes, allEpisodes}: HomeProps) {
   //     .then(data => console.log(data));
   // }, []);
 
-  const { playList } = useContext(PlayerContext);
+  const { playList } = usePlayer();
 
   const episodeList = [...latestEpisodes, ...allEpisodes];
 

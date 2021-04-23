@@ -25,7 +25,7 @@
     footer {
         align-self: stretch;
 
-        &.empty { //se tiver a classe "empty"...
+        &.empty .progress {
             opacity: 0.5;
         }
     }
@@ -109,11 +109,25 @@
 
         &:disabled {
             cursor: default;
+            opacity: 0.5;
         }
 
         &:hover:not(:disabled) {
             filter: brightness(0.75);
         }
+
+        &.isActive {
+            filter: invert(0.35) sepia(1) saturate(3) hue-rotate(100deg);
+            //para deixar o botão svg verde
+            //seria mais fácil usar ícones de um pacote de ícones (react-icons), pois esses ícones tem uma propriedade "color";
+        }
+
+        &.isActive {
+            filter: brightness(0.6) invert(0.35) sepia(1) saturate(3) hue-rotate(100deg);
+            //para deixar o botão svg verde
+        }
+
+
 
         &.playButton {
             width: 4rem;
